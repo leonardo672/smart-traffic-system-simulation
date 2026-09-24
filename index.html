@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Smart Traffic System — Hub</title>
+<style>
+  :root{--bg:#0b0f14;--panel:#121922;--panel2:#0e141c;--line:#1f2a36;--ink:#e7eef6;
+    --muted:#8aa0b4;--accent:#36d3b0;--accent2:#2aa0ff;
+    --sans:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;--mono:ui-monospace,Consolas,monospace;}
+  *{box-sizing:border-box}
+  body{margin:0;background:radial-gradient(1200px 600px at 70% -10%,#13202b,#0b0f14);
+       color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.5}
+  .wrap{max-width:1100px;margin:0 auto;padding:18px 20px 48px}
+  .nav{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:14px;
+       background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:8px 12px}
+  .nav .lg{font-weight:600;margin-right:10px;color:var(--accent);text-decoration:none}
+  .nav a.lnk{color:var(--muted);text-decoration:none;padding:7px 12px;border-radius:8px;font-size:14px}
+  .nav a.lnk:hover{color:var(--ink);background:var(--panel2)}
+  .nav a.lnk.active{color:#04223f;background:var(--accent);font-weight:600}
+  .nav .sp{margin-left:auto}
+  #btnLang{font-family:var(--mono);font-size:13px;padding:6px 12px;border-radius:8px;
+       background:var(--panel2);border:1px solid var(--accent);color:var(--accent);cursor:pointer}
+  #btnLang:hover{background:var(--accent);color:#04201a}
+  .hero{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:26px 24px;margin-bottom:18px}
+  .hero h1{margin:0 0 4px;font-size:26px;font-weight:600}
+  .hero .sub{color:var(--accent2);font-family:var(--mono);font-size:13px;
+       letter-spacing:.6px;text-transform:uppercase;margin-bottom:10px}
+  .hero p{margin:0;color:var(--muted);max-width:760px}
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  @media(max-width:860px){.cards{grid-template-columns:1fr}}
+  a.card{display:block;text-decoration:none;color:inherit;background:var(--panel);border:1px solid var(--line);
+       border-radius:14px;padding:20px;transition:.14s}
+  a.card:hover{border-color:var(--accent);transform:translateY(-2px)}
+  a.card .ic{font-size:30px;margin-bottom:10px}
+  a.card h3{margin:0 0 6px;font-size:18px;font-weight:600}
+  a.card p{margin:0;color:var(--muted);font-size:14px}
+  .tag{display:inline-block;margin-top:12px;font-family:var(--mono);font-size:12px;color:var(--accent2)}
+  footer{margin-top:24px;color:var(--muted);font-size:13px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav">
+    <a class="lg" href="index.html">⬢ Smart Traffic System</a>
+    <a class="lnk active" href="index.html" data-ru="Главная" data-en="Home"></a>
+    <a class="lnk" href="traffic_control_station.html" data-ru="Станция" data-en="Station"></a>
+    <a class="lnk" href="analytics.html" data-ru="Аналитика" data-en="Analytics"></a>
+    <a class="lnk" href="oscilloscope.html" data-ru="Осциллограф" data-en="Oscilloscope"></a>
+    <span class="sp"></span>
+    <button id="btnLang">EN</button>
+  </nav>
+
+  <div class="hero">
+    <h1 data-ru="Smart Traffic System" data-en="Smart Traffic System"></h1>
+    <div class="sub" data-ru="Симуляция встроенного управления и надёжности" data-en="Embedded Control &amp; Reliability Simulation"></div>
+    <p data-ru="Учебно-исследовательский стенд: сравнение микросхем NE555 и К561ТЛ1 по надёжности, точности и помехозащищённости. Встроенный симулятор, аналитика и осциллограф — всё в браузере, без сервера."
+       data-en="Research & teaching bench: comparing the NE555 and К561ТЛ1 chips on reliability, accuracy and noise immunity. Built-in simulator, analytics and oscilloscope — all in the browser, no server."></p>
+  </div>
+
+  <div class="cards">
+    <a class="card" href="traffic_control_station.html">
+      <div class="ic">🚦</div>
+      <h3 data-ru="Станция управления" data-en="Control station"></h3>
+      <p data-ru="Интерактивный встраиваемый контроллер: фазы светофора, watchdog, резервирование, среда (сезон/время/ветер/осадки/воздушная опасность)."
+         data-en="Interactive embedded controller: signal phases, watchdog, failover, environment (season/time/wind/precipitation/air-raid)."></p>
+      <span class="tag" data-ru="открыть →" data-en="open →"></span>
+    </a>
+    <a class="card" href="analytics.html">
+      <div class="ic">📊</div>
+      <h3 data-ru="Аналитика надёжности" data-en="Reliability analytics"></h3>
+      <p data-ru="Графики сравнения чипов: MTBF, отказы, ложные срабатывания, мощность, точность переключения. Запуск симуляции стресс-теста."
+         data-en="Chip comparison charts: MTBF, failures, false triggers, power, switching accuracy. Run a simulated stress test."></p>
+      <span class="tag" data-ru="открыть →" data-en="open →"></span>
+    </a>
+    <a class="card" href="oscilloscope.html">
+      <div class="ic">〰️</div>
+      <h3 data-ru="Осциллограф" data-en="Oscilloscope"></h3>
+      <p data-ru="Сигналы R/Y/G и тактовый генератор в реальном времени. Видна разница джиттера 50 мкс (NE555) и 5 мкс (К561ТЛ1)."
+         data-en="Live R/Y/G signals and the timer clock. Shows the 50 µs (NE555) vs 5 µs (К561ТЛ1) jitter difference."></p>
+      <span class="tag" data-ru="открыть →" data-en="open →"></span>
+    </a>
+  </div>
+
+  <footer data-ru="Все страницы автономны (HTML/CSS/JS), открываются офлайн. Выбор языка сохраняется между страницами."
+          data-en="All pages are standalone (HTML/CSS/JS) and open offline. Language choice persists across pages."></footer>
+</div>
+<script>
+  (function(){
+    var lang="ru";try{var s=localStorage.getItem("stationLang");if(s==="ru"||s==="en")lang=s;}catch(e){}
+    function apply(){document.querySelectorAll("[data-ru]").forEach(function(el){
+      el.innerHTML=lang==="ru"?el.getAttribute("data-ru"):el.getAttribute("data-en");});
+      document.documentElement.lang=lang;document.getElementById("btnLang").textContent=lang==="ru"?"EN":"RU";}
+    document.getElementById("btnLang").onclick=function(){lang=lang==="ru"?"en":"ru";
+      try{localStorage.setItem("stationLang",lang);}catch(e){}apply();};
+    apply();
+  })();
+</script>
+</body>
+</html>

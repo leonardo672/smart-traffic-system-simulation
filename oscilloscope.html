@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Осциллограф — Oscilloscope</title>
+<style>
+  :root{--bg:#0b0f14;--panel:#121922;--panel2:#0e141c;--line:#1f2a36;--ink:#e7eef6;
+    --muted:#8aa0b4;--accent:#36d3b0;--accent2:#2aa0ff;
+    --red:#ff4136;--amber:#ffb300;--green:#2ecc71;--clk:#7fb8ff;--ok:#37d67a;--danger:#ff5a5a;
+    --sans:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;--mono:ui-monospace,Consolas,monospace;}
+  *{box-sizing:border-box}
+  body{margin:0;background:radial-gradient(1200px 600px at 70% -10%,#13202b,#0b0f14);
+       color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.5}
+  .wrap{max-width:1200px;margin:0 auto;padding:18px 20px 48px}
+  .nav{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:14px;
+       background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:8px 12px}
+  .nav .lg{font-weight:600;margin-right:10px;color:var(--accent);text-decoration:none}
+  .nav a.lnk{color:var(--muted);text-decoration:none;padding:7px 12px;border-radius:8px;font-size:14px}
+  .nav a.lnk:hover{color:var(--ink);background:var(--panel2)}
+  .nav a.lnk.active{color:#04223f;background:var(--accent);font-weight:600}
+  .nav .sp{margin-left:auto}
+  #btnLang{font-family:var(--mono);font-size:13px;padding:6px 12px;border-radius:8px;
+       background:var(--panel2);border:1px solid var(--accent);color:var(--accent);cursor:pointer}
+  #btnLang:hover{background:var(--accent);color:#04201a}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:16px}
+  .card h3{margin:0 0 12px;font-size:13px;letter-spacing:.6px;text-transform:uppercase;color:var(--muted);font-weight:600}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  button{font-family:var(--sans);font-size:14px;color:var(--ink);cursor:pointer;background:var(--panel2);
+       border:1px solid var(--line);border-radius:8px;padding:9px 14px;transition:.12s}
+  button:hover{border-color:var(--accent);color:#fff}
+  button.primary{background:var(--accent);color:#04201a;border-color:var(--accent);font-weight:600}
+  .seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  .seg button{border:0;border-radius:0;background:var(--panel2)}
+  .seg button.sel{background:var(--accent2);color:#04223f;font-weight:600}
+  label.fld{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:8px}
+  select{background:var(--panel2);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-family:var(--mono)}
+  .grid{display:grid;grid-template-columns:1fr 280px;gap:16px}
+  @media(max-width:900px){.grid{grid-template-columns:1fr}}
+  .scopewrap{background:#05080b;border:1px solid var(--line);border-radius:10px;padding:8px}
+  canvas{display:block;width:100%;height:auto}
+  .meas{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .kv{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+  .kv .k{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px}
+  .kv .v{font-family:var(--mono);font-size:15px;margin-top:2px}
+  .kv.full{grid-column:1/3}
+  .v.good{color:var(--ok)}.v.warn{color:var(--amber)}
+  .legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-top:8px}
+  .legend i{display:inline-block;width:16px;height:3px;border-radius:2px;vertical-align:middle;margin-right:5px}
+  .hint{font-size:12px;color:var(--muted);margin:8px 0 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav">
+    <a class="lg" href="index.html">⬢ Smart Traffic System</a>
+    <a class="lnk" href="index.html" data-ru="Главная" data-en="Home"></a>
+    <a class="lnk" href="traffic_control_station.html" data-ru="Станция" data-en="Station"></a>
+    <a class="lnk" href="analytics.html" data-ru="Аналитика" data-en="Analytics"></a>
+    <a class="lnk active" href="oscilloscope.html" data-ru="Осциллограф" data-en="Oscilloscope"></a>
+    <span class="sp"></span>
+    <button id="btnLang">EN</button>
+  </nav>
+
+  <section class="card">
+    <h3 data-ru="Осциллограф сигналов контроллера" data-en="Controller signal oscilloscope"></h3>
+    <div class="row">
+      <button id="btnRun" class="primary" data-ru="⏸ Пауза" data-en="⏸ Pause"></button>
+      <span class="seg" id="chipSel">
+        <button data-chip="K561TL1" class="sel">К561ТЛ1</button>
+        <button data-chip="NE555">NE555</button>
+      </span>
+      <label class="fld"><span data-ru="Развёртка" data-en="Time base"></span>
+        <select id="tb">
+          <option value="2">2 s</option>
+          <option value="4" selected>4 s</option>
+          <option value="8">8 s</option>
+        </select>
+      </label>
+      <label class="fld"><span data-ru="Скорость фаз" data-en="Phase speed"></span>
+        <select id="spd"><option value="1">1×</option><option value="3" selected>3×</option><option value="6">6×</option></select>
+      </label>
+    </div>
+    <div class="legend" style="margin-top:10px">
+      <span><i style="background:var(--red)"></i>R (GPIO17)</span>
+      <span><i style="background:var(--amber)"></i>Y (GPIO27)</span>
+      <span><i style="background:var(--green)"></i>G (GPIO22)</span>
+      <span><i style="background:var(--clk)"></i><span data-ru="CLK · тактовый генератор" data-en="CLK · timer clock"></span></span>
+    </div>
+  </section>
+
+  <div class="grid">
+    <section class="card">
+      <h3 data-ru="Экран" data-en="Screen"></h3>
+      <div class="scopewrap"><canvas id="scope" width="820" height="420"></canvas></div>
+      <p class="hint" data-ru="Нижняя дорожка CLK — выход таймера. Обратите внимание на «дрожание» (джиттер) фронтов: у NE555 оно заметно больше, чем у К561ТЛ1." data-en="The bottom CLK track is the timer output. Note the edge jitter: NE555 wobbles noticeably more than К561ТЛ1."></p>
+    </section>
+
+    <aside>
+      <section class="card">
+        <h3 data-ru="Измерения" data-en="Measurements"></h3>
+        <div class="meas">
+          <div class="kv full"><div class="k" data-ru="Активное ядро" data-en="Active core"></div><div class="v" id="m-chip">—</div></div>
+          <div class="kv"><div class="k" data-ru="Тактовая частота" data-en="Clock freq"></div><div class="v" id="m-freq">—</div></div>
+          <div class="kv"><div class="k" data-ru="Период" data-en="Period"></div><div class="v" id="m-per">—</div></div>
+          <div class="kv full"><div class="k" data-ru="Джиттер фронта" data-en="Edge jitter"></div><div class="v" id="m-jit">—</div></div>
+          <div class="kv"><div class="k" data-ru="Скважность" data-en="Duty"></div><div class="v" id="m-duty">50%</div></div>
+          <div class="kv"><div class="k" data-ru="Фаза" data-en="Phase"></div><div class="v" id="m-phase">—</div></div>
+        </div>
+      </section>
+      <section class="card">
+        <h3 data-ru="Джиттер фронта (увеличение)" data-en="Edge jitter (zoom)"></h3>
+        <div class="scopewrap"><canvas id="eye" width="280" height="160"></canvas></div>
+        <p class="hint" data-ru="Наложение множества фронтов. Ширина «размытия» = джиттер." data-en="Many edges overlaid. The blur width = jitter."></p>
+      </section>
+    </aside>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var lang="ru";try{var s=localStorage.getItem("stationLang");if(s==="ru"||s==="en")lang=s;}catch(e){}
+  var tr=function(ru,en){return lang==="ru"?ru:en;};
+  function applyLang(){document.querySelectorAll("[data-ru]").forEach(function(el){
+    el.innerHTML=lang==="ru"?el.getAttribute("data-ru"):el.getAttribute("data-en");});
+    document.documentElement.lang=lang;document.getElementById("btnLang").textContent=lang==="ru"?"EN":"RU";}
+
+  // chip jitter: real spec 50µs vs 5µs. Scale for visibility on a ~2Hz clock.
+  var CHIP={NE555:{jit_us:50, jitAmp:0.10, color:"#7fb8ff"}, K561TL1:{jit_us:5, jitAmp:0.012, color:"#7fb8ff"}};
+  var STATES=[ // key,dur,r,y,g
+    {k:"RED",d:30,r:1,y:0,g:0},{k:"RY",d:2,r:1,y:1,g:0},{k:"GREEN",d:25,r:0,y:0,g:1},{k:"YEL",d:3,r:0,y:1,g:0}];
+  var ST_LABEL={RED:["Красный","Red"],RY:["Кр+жёлт","R+Y"],GREEN:["Зелёный","Green"],YEL:["Жёлтый","Yellow"]};
+
+  var S={running:true,chip:"K561TL1",tb:4,spd:3,t:0,clkPeriod:0.5};
+
+  // phase at sim-time tau (seconds), cycle of STATES
+  var CYCLE=STATES.reduce(function(a,s){return a+s.d;},0);
+  function phaseAt(tau){var x=((tau%CYCLE)+CYCLE)%CYCLE;
+    for(var i=0;i<STATES.length;i++){if(x<STATES[i].d)return STATES[i];x-=STATES[i].d;}return STATES[0];}
+  // smooth pseudo-noise for jitter (deterministic in tau)
+  function noise(tau){return Math.sin(tau*37.1)+Math.sin(tau*71.7)+Math.sin(tau*113.3);}
+  function clkAt(tau){var amp=CHIP[S.chip].jitAmp;
+    var ph=tau/S.clkPeriod + amp*noise(tau);
+    return (Math.sin(ph*Math.PI*2)>=0)?1:0;}
+
+  function setup(cv,hCss){var dpr=window.devicePixelRatio||1;var w=cv.clientWidth||820,h=hCss;
+    cv.width=w*dpr;cv.height=h*dpr;var x=cv.getContext("2d");x.setTransform(dpr,0,0,dpr,0,0);return {x:x,w:w,h:h};}
+
+  var scope=document.getElementById("scope"), eye=document.getElementById("eye");
+
+  function drawScope(){
+    var s=setup(scope,420),x=s.x,w=s.w,h=s.h;
+    x.clearRect(0,0,w,h);
+    // graticule
+    x.strokeStyle="#10202a";x.lineWidth=1;
+    for(var gx=0;gx<=10;gx++){var xx=w*gx/10;x.beginPath();x.moveTo(xx,0);x.lineTo(xx,h);x.stroke();}
+    for(var gy=0;gy<=8;gy++){var yy=h*gy/8;x.beginPath();x.moveTo(0,yy);x.lineTo(w,yy);x.stroke();}
+    // 4 lanes: R,Y,G,CLK
+    var lanes=[
+      {name:"R",col:"#ff4136",f:function(tau){return phaseAt(tau).r;}},
+      {name:"Y",col:"#ffb300",f:function(tau){return phaseAt(tau).y;}},
+      {name:"G",col:"#2ecc71",f:function(tau){return phaseAt(tau).g;}},
+      {name:"CLK",col:CHIP[S.chip].color,f:clkAt}
+    ];
+    var laneH=h/4, amp=laneH*0.32, t0=S.t-S.tb, t1=S.t;
+    var N=w; // one sample per pixel
+    lanes.forEach(function(L,li){
+      var midY=laneH*li+laneH/2;
+      // baseline label
+      x.fillStyle="#5f7585";x.font="11px ui-monospace,Consolas,monospace";x.textAlign="left";
+      x.fillText(L.name,6,laneH*li+14);
+      x.strokeStyle=L.col;x.lineWidth=1.8;x.beginPath();
+      for(var i=0;i<=N;i++){
+        var tau=t0+(t1-t0)*i/N;
+        var v=L.f(tau);
+        var px=i, py=midY - (v?amp:-amp);
+        if(i===0)x.moveTo(px,py);else x.lineTo(px,py);
+      }
+      x.stroke();
+      // lane separator
+      x.strokeStyle="#1a2a34";x.lineWidth=1;x.beginPath();x.moveTo(0,laneH*(li+1));x.lineTo(w,laneH*(li+1));x.stroke();
+    });
+    // time axis labels
+    x.fillStyle="#5f7585";x.textAlign="right";x.fillText(S.tb.toFixed(0)+" s →",w-6,h-6);
+  }
+
+  function drawEye(){
+    var s=setup(eye,160),x=s.x,w=s.w,h=s.h;
+    x.clearRect(0,0,w,h);
+    x.strokeStyle="#10202a";for(var g=0;g<=4;g++){var xx=w*g/4;x.beginPath();x.moveTo(xx,0);x.lineTo(xx,h);x.stroke();}
+    var amp=CHIP[S.chip].jitAmp, col=CHIP[S.chip].color;
+    var midX=w/2, sweeps=40;
+    x.lineWidth=1;
+    for(var k=0;k<sweeps;k++){
+      // each sweep: a rising edge with random offset ~ jitter
+      var off=(Math.random()*2-1)*amp*w*0.9;
+      x.strokeStyle=col; x.globalAlpha=0.25;
+      x.beginPath();
+      x.moveTo(0,h*0.78);
+      x.lineTo(midX+off-4,h*0.78);
+      x.lineTo(midX+off+4,h*0.22);
+      x.lineTo(w,h*0.22);
+      x.stroke();
+    }
+    x.globalAlpha=1;
+    // jitter band markers
+    x.strokeStyle="#ffd98a";x.setLineDash([4,4]);x.lineWidth=1;
+    var bw=amp*w*0.9;
+    x.beginPath();x.moveTo(midX-bw,0);x.lineTo(midX-bw,h);x.moveTo(midX+bw,0);x.lineTo(midX+bw,h);x.stroke();
+    x.setLineDash([]);
+    x.fillStyle="#ffd98a";x.font="11px ui-monospace,Consolas,monospace";x.textAlign="center";
+    x.fillText("± "+CHIP[S.chip].jit_us+" µs",midX,14);
+  }
+
+  function updMeas(){
+    document.getElementById("m-chip").textContent=(S.chip==="K561TL1"?"К561ТЛ1 (CMOS)":"NE555 (bipolar)");
+    var f=1/S.clkPeriod;
+    document.getElementById("m-freq").textContent=f.toFixed(2)+" Hz";
+    document.getElementById("m-per").textContent=(S.clkPeriod*1000).toFixed(0)+" ms";
+    document.getElementById("m-jit").innerHTML="± "+CHIP[S.chip].jit_us+" µs "+
+      "<span style='color:"+(S.chip==="K561TL1"?"var(--ok)":"var(--amber)")+"'>("+(S.chip==="K561TL1"?tr("отлично","excellent"):tr("высокий","high"))+")</span>";
+    document.getElementById("m-jit").className="v "+(S.chip==="K561TL1"?"good":"warn");
+    var p=phaseAt(S.t);
+    document.getElementById("m-phase").textContent=ST_LABEL[p.k][lang==="ru"?0:1];
+  }
+
+  var last=performance.now();
+  function frame(now){var dt=(now-last)/1000;last=now;
+    if(S.running)S.t+=dt*S.spd;
+    drawScope();updMeas();
+    requestAnimationFrame(frame);}
+  requestAnimationFrame(frame);
+  // eye redraws periodically (jitter animation)
+  setInterval(drawEye,90);
+
+  // controls
+  document.getElementById("btnRun").onclick=function(){S.running=!S.running;
+    this.innerHTML=S.running?tr("⏸ Пауза","⏸ Pause"):tr("▶ Пуск","▶ Run");};
+  document.querySelectorAll("#chipSel button").forEach(function(b){b.onclick=function(){
+    document.querySelectorAll("#chipSel button").forEach(function(x){x.classList.remove("sel");});
+    this.classList.add("sel");S.chip=this.dataset.chip;drawEye();updMeas();};});
+  document.getElementById("tb").onchange=function(){S.tb=+this.value;};
+  document.getElementById("spd").onchange=function(){S.spd=+this.value;};
+  document.getElementById("btnLang").onclick=function(){lang=lang==="ru"?"en":"ru";
+    try{localStorage.setItem("stationLang",lang);}catch(e){}applyLang();
+    document.getElementById("btnRun").innerHTML=S.running?tr("⏸ Пауза","⏸ Pause"):tr("▶ Пуск","▶ Run");updMeas();};
+  window.addEventListener("resize",function(){drawScope();drawEye();});
+
+  applyLang();drawEye();updMeas();
+})();
+</script>
+</body>
+</html>

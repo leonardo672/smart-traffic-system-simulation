@@ -1,0 +1,41 @@
+# ============================================================
+# Smart Traffic System — .gitignore
+# Static HTML/CSS/JS project (no build step, no dependencies)
+# ============================================================
+
+# ---- OS / file-manager noise ---------------------------------
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.swp
+*.swo
+*~
+
+# ---- Editor / IDE folders ------------------------------------
+.idea/
+.vscode/
+*.code-workspace
+*.sublime-project
+*.sublime-workspace
+
+# ---- Local scratch & personal notes --------------------------
+notes/
+scratch/
+*.bak
+*.orig
+*.tmp
+
+# ---- Logs ----------------------------------------------------
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ---- Node / tooling leftovers (if ever added) ----------------
+node_modules/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+dist/
+build/
+coverage/
