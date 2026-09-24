@@ -1,81 +1,61 @@
-# نظام حركة المرور الذكي — فهرس التوثيق
+# نظام المرور الذكي — فهرس التوثيق
 
-> نقطة دخول لتوثيق المشروع.
+> نقطة الدخول إلى توثيق المشروع.
+
+---
+
+## لمحة عن المشروع
+
+**Smart Traffic** هو نظام بحثي وتعليمي يعمل دون اتصال بالإنترنت، وثنائي اللغة (`RU/EN`)، يعمل كمنصة اختبار تقارن بين تقنيتين للمؤقتات — **NE555** (`bipolar`) و**К561ТЛ1** (`CMOS Schmitt-trigger`) — باعتبارهما نواة التوقيت لوحدة تحكم في إشارات المرور ذات التكرار الاحتياطي للسلامة (`safety-redundant traffic-light controller`).
+
+يتضمن النظام: تسلسل أطوار آلة الحالات المحدودة (`FSM phase sequencing`)، ومراقبًا (`watchdog`) مع مرحل تحويل احتياطي (`failover relay`)، وتوقيتًا متكيفًا مع البيئة (`environment-adaptive timing`)، ونموذجًا احتماليًا للموثوقية (`stochastic reliability model`)، وراسم ذبذبات حيًا (`live oscilloscope`) مع تحليل التذبذب الزمني (`jitter analysis`).
+
+وكل ذلك موجود في أربعة ملفات HTML مستقلة، مع اعتماديات صفرية (`zero dependencies`) ودون الحاجة إلى خادم (`no server`).
 
 ---
 
 ## ملفات التوثيق
 
-| الملف | الغرض | اقرأه لتتعلم |
-|---|---|---|
-| [`SCIENCE_GUIDE.md`](./SCIENCE_GUIDE.md) | استعراض علمي مع رسوم | ما تمثله الأنظمة، إلكترونيات الشريحتين، "FSM"، الـ"watchdog"/التبديل، نظام الاستشعار، رياضيات الموثوقية، "jitter" ومخططات العين، مسرد، ملحق معاملات كامل |
-| [`ENGINEERING_USAGE.md`](./ENGINEERING_USAGE.md) | دليل الفائدة والبرمجة | لماذا المشروع مفيد (التعليم / السلامة / الأنظمة المدمجة)، بنية الكود، نمط كائن الحالة، محرك "canvas"، مخططات "SVG"، "i18n"، تصميم المحاكاة، محرك التحليلات، القيود وخارطة التوسيع |
-| `ar/SCIENCE_GUIDE.md` | النسخة العربية | الترجمة الاحترافية للدليل العلمي مع إبقاء المصطلحات التقنية بالإنجليزية |
-| `ar/ENGINEERING_USAGE.md` | النسخة العربية | الترجمة الاحترافية لدليل الفائدة والبرمجة |
-| `ar/INDEX.md` | النسخة العربية | هذا الفهرس مترجماً |
+| **الملف**                                                                                        | **الغرض**                           | **اقرأه لتتعلم**                                                                                                                                                                                                                                                     |
+| ------------------------------------------------------------------------------------------------ | ----------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [`SCIENCE_GUIDE.md`](file:///C:/D/Projects-P/smart_traffic_system/docs/SCIENCE_GUIDE.md)         | تعمق علمي شامل مع مخططات            | ما الذي يحاكيه النظام، وإلكترونيات كلتا الدائرتين، و`FSM`، و`watchdog/failover`، ومنظومة الاستشعار، وحسابات الموثوقية، و`jitter` ومخططات العين (`eye diagrams`)، والمسرد (`glossary`)، والملحق الكامل للمعاملات                                                      |
+| [`ENGINEERING_USAGE.md`](file:///C:/D/Projects-P/smart_traffic_system/docs/ENGINEERING_USAGE.md) | تعمق في الاستخدام والهندسة والبرمجة | لماذا المشروع مفيد (تعليميًا / للسلامة / للأنظمة المضمنة)، وبنية الكود، ونمط كائن الحالة (`state-object pattern`)، ومحرك `canvas`، والمخططات التخطيطية `SVG`، والتدويل (`i18n`)، وتصميم المحاكاة، ومحرك التحليلات (`analytics engine`)، والقيود، وخارطة طريق التوسعة |
 
 ```mermaid
-flowchart LR
-    classDef primary fill:#0B2533,stroke:#22D3EE,stroke-width:2px,color:#CFFAFE
-    classDef ai fill:#21153A,stroke:#A78BFA,stroke-width:2px,color:#EDE9FE
-    classDef storage fill:#0B2927,stroke:#2DD4BF,stroke-width:2px,color:#CCFBF1
-    classDef external fill:#30230B,stroke:#F59E0B,stroke-width:2px,color:#FEF3C7
-    classDef neutral fill:#161B22,stroke:#64748B,stroke-width:2px,color:#E2E8F0
-    classDef error fill:#32151B,stroke:#FB7185,stroke-width:2px,color:#FFE4E6
-
-    R["docs/ · INDEX.md"]:::storage
-    S["SCIENCE_GUIDE.md<br/>explanations & diagrams"]:::primary
-    E["ENGINEERING_USAGE.md<br/>utility & programming"]:::ai
-    AR["docs/ar/ · النسخة العربية"]:::ai
-    APP["actual source · four HTML pages"]:::neutral
-
-    R --> S
-    R --> E
-    R --> AR
-    S --> APP
-    E --> APP
-
-    linkStyle default stroke:#64748B,stroke-width:1.5px
-    linkStyle 0,1,2 stroke:#22D3EE,stroke-width:2px
+image
 ```
 
----
-
-## كيف تقرأ هذا التوثيق
-
-1. **ابدأ بالدليل العلمي** لفهم كامل *ما* هو النظام و*لماذا* يتصرف كما يتصرف — كل طور
-   وموقّت ومستشعر وصيغة مشروحة ومخططة. وملحقه
-   [مرجع المعاملات](./SCIENCE_GUIDE.md#٧-الملحق-جدول-المعاملات) هو المصدر الواحد
-   للأرقام الرئيسية.
-2. **ثم اقرأ دليل الفائدة والبرمجة** لمعرفة *كيف* نُفِّذَ و*كيف* تُستخدمه / توسّعه —
-   بنية الكود، العرض، "i18n"، محرك التحليلات، القيود.
-3. **افتح التطبيق نفسه:** `index.html` ← `traffic_control_station.html` (شغّل الطاقة،
-   بدّل الشرائح، احقن أعطالاً، جرّب الإنذار الجوي/الليل) ← `analytics.html` (شغّل
-   اختبار إجهاد) ← `oscilloscope.html` (بدّل الشرائح وشاهد "jitter").
-4. **بالنسبة للناطقين بالعربية:** النسخ العربية في `docs/ar/` تحافظ على المصطلحات
-   التقنية الأساسية بالإنجليزية بين علامتي تنصيص ("...") حفاظاً على الدقة.
+`docs/ · INDEX.md · SCIENCE_GUIDE.md — الشروحات والمخططات العلمية · ENGINEERING_USAGE.md — دليل الاستخدام والبرمجة · actual source — صفحات HTML الأربع`
 
 ---
 
-## خريطة المراسلات: صفحة ↔ قسم توثيق
+## كيفية قراءة هذا التوثيق
 
-| الصفحة | قسم الدليل العلمي | قسم الدليل البرمجي |
-|---|---|---|
-| `index.html` | [§٤ بنية النظام](./SCIENCE_GUIDE.md#٤-بنية-النظام) | [§٣ التخطيط والمكدس](./ENGINEERING_USAGE.md#٣-تخطيط-المستودع-ومكدس-التقنيات) |
-| `traffic_control_station.html` | [§٥ FSM](./SCIENCE_GUIDE.md#٥-آلة-الحالات-المحدودة-لإشارات-المرور)، [§٦ الاستشعار](./SCIENCE_GUIDE.md#٦-النظام-الفرعي-لاستشعار-البيئة)، [§٧ Watchdog](./SCIENCE_GUIDE.md#٧-تحمّل-الأعطال-watchdog-والتكرار) | [§٥ كائن الحالة](./ENGINEERING_USAGE.md#٥-نمط-كائن-الحالة-قلب-التطبيق)، [§٦ العرض](./ENGINEERING_USAGE.md#٦-خط-أنابيب-العرض-rendering)، [§٧–٩ Canvas/SVG/i18n](./ENGINEERING_USAGE.md#٧-محرك-canvas-الراسم-الذبذبي-ومشهد-الطقس) |
-| `analytics.html` | [§٨ نموذج الموثوقية](./SCIENCE_GUIDE.md#٨-نموذج-الموثوقية-العشوائي) | [§١١ محرك التحليلات](./ENGINEERING_USAGE.md#١١-محرك-التحليلات) |
-| `oscilloscope.html` | [§٩ سلامة الإشارة](./SCIENCE_GUIDE.md#٩-سلامة-الإشارة-الساعة-والأطوار-والانحراف-jitter) | [§٧ محرك canvas](./ENGINEERING_USAGE.md#٧-محرك-canvas-الراسم-الذبذبي-ومشهد-الطقس)، [§١٠ المحاكاة](./ENGINEERING_USAGE.md#١٠-تصميم-المحاكاة) |
+1. **ابدأ بالدليل العلمي** (`science guide`) للحصول على فهم كامل لـ*ما هو* النظام و*لماذا* يتصرف بالطريقة التي يتصرف بها — إذ يتم شرح كل طور، ومؤقت، ومستشعر، ومعادلة، وتمثيلها في مخططات. ويُعد **[Appendix: parameter reference]** المصدر المرجعي الوحيد للأرقام الأساسية.
+
+2. **ثم اقرأ دليل الهندسة والاستخدام** (`engineering & usage guide`) لفهم *كيفية* تنفيذ النظام و*كيفية استخدامه / توسيعه* — بما في ذلك بنية الكود، وآلية التصيير (`rendering`)، والتدويل (`i18n`)، ومحرك التحليلات (`analytics engine`)، والقيود.
+
+3. **افتح التطبيق نفسه**:
+   `index.html` → `traffic_control_station.html` (تشغيل الطاقة، والتبديل بين الشرائح، وحقن الأعطال، وتجربة وضع الغارة الجوية / الليل) → `analytics.html` (تشغيل اختبار إجهاد) → `oscilloscope.html` (التبديل بين الشرائح ومراقبة `jitter`).
+
+---
+
+## خريطة الصفحة ↔ التوثيق
+
+| **الصفحة**                     | **قسم الدليل العلمي**                                                                                                                                                                                                                                                                                                                                                | **قسم الدليل الهندسي**                                                                                                                                                                                                                                                                                                                                                                              |
+| ------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `index.html`                   | [§4 System architecture](file:///C:/D/Projects-P/smart_traffic_system/docs/SCIENCE_GUIDE.md#4-system-architecture)                                                                                                                                                                                                                                                   | [§3 Layout & stack](file:///C:/D/Projects-P/smart_traffic_system/docs/ENGINEERING_USAGE.md#3-repository-layout-and-tech-stack)                                                                                                                                                                                                                                                                      |
+| `traffic_control_station.html` | [§5 FSM](file:///C:/D/Projects-P/smart_traffic_system/docs/SCIENCE_GUIDE.md#5-the-traffic-light-finite-state-machine)، [§6 Sensing](file:///C:/D/Projects-P/smart_traffic_system/docs/SCIENCE_GUIDE.md#6-environment-sensing-subsystem)، [§7 Watchdog](file:///C:/D/Projects-P/smart_traffic_system/docs/SCIENCE_GUIDE.md#7-fault-tolerance-watchdog-and-redundancy) | [§5 State object](file:///C:/D/Projects-P/smart_traffic_system/docs/ENGINEERING_USAGE.md#5-the-state-object-pattern-heart-of-the-app)، [§6 Rendering](file:///C:/D/Projects-P/smart_traffic_system/docs/ENGINEERING_USAGE.md#6-rendering-pipeline)، [§7–10 Canvas/SVG/i18n/sim](file:///C:/D/Projects-P/smart_traffic_system/docs/ENGINEERING_USAGE.md#7-canvas-engine-oscilloscope--weather-scene) |
+| `analytics.html`               | [§8 Reliability model](file:///C:/D/Projects-P/smart_traffic_system/docs/SCIENCE_GUIDE.md#8-the-stochastic-reliability-model)                                                                                                                                                                                                                                        | [§11 Analytics engine](file:///C:/D/Projects-P/smart_traffic_system/docs/ENGINEERING_USAGE.md#11-the-analytics-engine)                                                                                                                                                                                                                                                                              |
+| `oscilloscope.html`            | [§9 Signal integrity](file:///C:/D/Projects-P/smart_traffic_system/docs/SCIENCE_GUIDE.md#9-signal-integrity-clock-phases-and-jitter)                                                                                                                                                                                                                                 | [§7 Canvas engine](file:///C:/D/Projects-P/smart_traffic_system/docs/ENGINEERING_USAGE.md#7-canvas-engine-oscilloscope--weather-scene)، [§10 Simulation](file:///C:/D/Projects-P/smart_traffic_system/docs/ENGINEERING_USAGE.md#10-simulation-design)                                                                                                                                               |
 
 ---
 
 ## حقائق سريعة
 
-- **دورة المرور الاسمية:** 60 s — RED 30 s ← R+Y 2 s ← GREEN 25 s ← YELLOW 3 s.
-- **"watchdog":** 30 s؛ يستنزف عند العطل؛ وعند 0 → التبديل الاحتياطي إلى "NE555".
-- **فجوة الشريحتين:** التيار 10000 µA مقابل 0.4 µA (~25,000×)، والدقة 50 µs مقابل
-  5 µs، وتحمل الضوضاء ضعيف مقابل ممتاز.
-- **الساعة:** 2 Hz بفترة 0.5 s؛ "jitter" ±50 µs (NE555) مقابل ±5 µs (К561ТЛ1).
+* **دورة المرور الاسمية** (`Nominal traffic cycle`): ‏60 ثانية — أحمر (`RED`) 30 ثانية → أحمر + أصفر (`R+Y`) ثانيتان → أخضر (`GREEN`) 25 ثانية → أصفر (`YELLOW`) 3 ثوانٍ.
+* **مراقب الأعطال** (`Watchdog`): ‏30 ثانية؛ ينخفض عداده عند حدوث عطل؛ وعند الوصول إلى 0 → يتم التحويل إلى `NE555` الاحتياطي (`failover to NE555 backup`).
+* **الفارق بين الشرائح** (`Chip gap`): ‏10,000 µA مقابل 0.4 µA (نحو 25,000×)، ودقة 50 µs مقابل 5 µs، ومناعة ضد الضوضاء (`noise immunity`) ضعيفة مقابل ممتازة.
+* **الساعة** (`Clock`): ‏2 Hz، بفترة 0.5 ثانية؛ والتذبذب الزمني (`jitter`) ±50 µs في `NE555` مقابل ±5 µs في `К561ТЛ1`.
 
-> تستخدم كل مخططات هذه الوثائق نظام ألوان دلالي واحد للمظهر الداكن (سماوي = بنية
-> أساسية، بنفسجي = نماذج/ذكاء، أخضر مزرق = ثبات، كهرماني = خارجي، وردي = مسارات
-> خطأ، أردوازي = بنية تحتية) مصمم لخلفية سوداء في "GitHub README".
+> تستخدم جميع المخططات في هذه الوثائق نظام ألوان دلاليًا موحدًا للواجهة الداكنة (`semantic dark-theme color system`) — السماوي (`cyan`) = البنية الأساسية (`core architecture`)، والبنفسجي (`violet`) = النماذج / الذكاء (`models/intelligence`)، والفيروزي (`teal`) = الاستمرارية / التخزين (`persistence`)، والكهرماني (`amber`) = العناصر الخارجية (`external`)، والوردي (`rose`) = مسارات الأخطاء (`error paths`)، والرمادي الأردوازي (`slate`) = البنية التحتية (`infra`) — وقد صُمم هذا النظام ليتناسب مع README داكن على GitHub.
