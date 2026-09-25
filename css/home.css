@@ -1,0 +1,20 @@
+/* ===== Home page (Hub) ===== */
+.wrap{max-width:1100px}
+
+.hero{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:26px 24px;margin-bottom:18px}
+.hero h1{margin:0 0 4px;font-size:26px;font-weight:600}
+.hero .sub{color:var(--accent2);font-family:var(--mono);font-size:13px;
+     letter-spacing:.6px;text-transform:uppercase;margin-bottom:10px}
+.hero p{margin:0;color:var(--muted);max-width:760px}
+
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:860px){.cards{grid-template-columns:1fr}}
+a.card{display:block;text-decoration:none;color:inherit;background:var(--panel);border:1px solid var(--line);
+     border-radius:14px;padding:20px;transition:.14s}
+a.card:hover{border-color:var(--accent);transform:translateY(-2px)}
+a.card .ic{font-size:30px;margin-bottom:10px}
+a.card h3{margin:0 0 6px;font-size:18px;font-weight:600}
+a.card p{margin:0;color:var(--muted);font-size:14px}
+
+.tag{display:inline-block;margin-top:12px;font-family:var(--mono);font-size:12px;color:var(--accent2)}
+footer{margin-top:24px;color:var(--muted);font-size:13px}

@@ -1,0 +1,21 @@
+/* ===== Reliability analytics page ===== */
+:root{--ne:#e0a23a;--k5:#36d3b0}
+.wrap{max-width:1200px}
+
+/* KPI cards */
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+@media(max-width:860px){.cards{grid-template-columns:1fr 1fr}}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.kpi .k{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px}
+.kpi .v{font-family:var(--mono);font-size:20px;margin-top:4px}
+.kpi .s{font-size:12px;color:var(--muted);margin-top:2px}
+.v.ne{color:var(--ne)}.v.k5{color:var(--k5)}.v.ok{color:var(--ok)}
+
+/* charts */
+.charts{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:860px){.charts{grid-template-columns:1fr}}
+.chart{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.chart h4{margin:0 0 4px;font-size:14px;font-weight:600}
+.chart .cap{margin:0 0 8px;font-size:12px;color:var(--muted)}
+
+.legend i{display:inline-block;width:14px;height:10px;border-radius:3px;vertical-align:middle;margin-right:5px}

@@ -1,0 +1,76 @@
+/* ===== Smart Traffic System — shared base styles ===== */
+
+:root{
+  --bg:#0b0f14;--panel:#121922;--panel2:#0e141c;--line:#1f2a36;
+  --ink:#e7eef6;--muted:#8aa0b4;--accent:#36d3b0;--accent2:#2aa0ff;
+  --red:#ff4136;--amber:#ffb300;--green:#2ecc71;--ok:#37d67a;--danger:#ff5a5a;
+  --mono:ui-monospace,Consolas,monospace;
+  --sans:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(1200px 600px at 70% -10%,#13202b,#0b0f14);
+     color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.5}
+.wrap{margin:0 auto;padding:18px 20px 48px}
+
+/* navigation */
+.nav{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:14px;
+     background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:8px 12px}
+.nav .lg{font-weight:600;margin-right:10px;color:var(--accent);text-decoration:none}
+.nav a.lnk{color:var(--muted);text-decoration:none;padding:7px 12px;border-radius:8px;font-size:14px}
+.nav a.lnk:hover{color:var(--ink);background:var(--panel2)}
+.nav a.lnk.active{color:#04223f;background:var(--accent);font-weight:600}
+.nav .sp{margin-left:auto}
+
+/* language toggle */
+#btnLang{font-family:var(--mono);font-size:13px;padding:6px 12px;border-radius:8px;
+     background:var(--panel2);border:1px solid var(--accent);color:var(--accent);cursor:pointer}
+#btnLang:hover{background:var(--accent);color:#04201a}
+
+/* panels */
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:16px}
+.card h3{margin:0 0 12px;font-size:13px;letter-spacing:.6px;text-transform:uppercase;color:var(--muted);font-weight:600}
+
+/* layout rows */
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.row+.row{margin-top:10px}
+
+/* buttons */
+button{font-family:var(--sans);font-size:14px;color:var(--ink);cursor:pointer;background:var(--panel2);
+     border:1px solid var(--line);border-radius:8px;padding:9px 12px;transition:.12s}
+button:hover:not(:disabled){border-color:var(--accent);color:#fff}
+button:disabled{opacity:.4;cursor:not-allowed}
+button.primary{background:var(--accent);color:#04201a;border-color:var(--accent);font-weight:600}
+
+/* segmented control */
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;flex-wrap:wrap}
+.seg button{border:0;border-radius:0;background:var(--panel2)}
+.seg button.sel{background:var(--accent2);color:#04223f;font-weight:600}
+
+/* forms */
+label.fld{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:8px}
+select{background:var(--panel2);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-family:var(--mono)}
+
+/* canvases */
+canvas{display:block;width:100%;height:auto}
+
+/* tables */
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th,td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--line)}
+th{color:var(--muted);font-weight:600;font-size:11.5px;text-transform:uppercase;letter-spacing:.4px}
+td.mono{font-family:var(--mono)}.win{color:var(--ok);font-weight:600}
+
+/* key-value blocks */
+.kv{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+.kv .k{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px}
+.kv .v{font-family:var(--mono);font-size:15px;margin-top:2px}
+.kv.full{grid-column:1/3}
+.v.good{color:var(--ok)}.v.warn{color:var(--amber)}
+
+/* result box */
+.rec{font-size:14px;background:#0c2a22;border:1px solid #14503f;border-radius:8px;padding:10px 12px}
+
+/* legend */
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-top:8px}
+
+/* helper text */
+.hint{font-size:12px;color:var(--muted);margin:8px 0 0}

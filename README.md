@@ -112,6 +112,17 @@ smart_traffic_system/
 ├── traffic_control_station.html  # controller simulation (largest page)
 ├── analytics.html                # reliability stress test
 ├── oscilloscope.html             # live scope + eye diagram
+├── css/
+│   ├── base.css                  # shared tokens, nav, buttons, cards, tables, forms
+│   ├── home.css                  # hub-specific styles
+│   ├── station.css               # control-station styles
+│   ├── analytics.css             # analytics-specific styles
+│   └── oscilloscope.css          # oscilloscope-specific styles
+├── js/
+│   ├── i18n.js                   # shared RU/EN layer (window.STS)
+│   ├── station.js                # controller simulation logic
+│   ├── analytics.js              # reliability stress-test engine
+│   └── oscilloscope.js           # live scope + eye diagram
 ├── .gitignore
 ├── LICENSE                       # MIT
 └── docs/
@@ -135,8 +146,10 @@ smart_traffic_system/
 ## Tech
 
 Vanilla **HTML5 / CSS3 / ES5-strict JS** — no frameworks, no bundler, no network
-calls. IIFE per page, single mutable state object, class-driven SVG schematics,
-DPR-aware canvas, and a `data-ru`/`data-en` i18n layer.
+calls. Shared `css/base.css` design tokens and shared `js/i18n.js` bilingual layer
+(`window.STS`) + one page-specific CSS/JS per page. IIFE per page, single mutable
+state object, class-driven SVG schematics, DPR-aware canvas, and a
+`data-ru`/`data-en` i18n layer.
 
 ## License
 

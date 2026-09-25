@@ -1,0 +1,12 @@
+/* ===== Oscilloscope page ===== */
+:root{--clk:#7fb8ff}
+.wrap{max-width:1200px}
+
+.grid{display:grid;grid-template-columns:1fr 280px;gap:16px}
+@media(max-width:900px){.grid{grid-template-columns:1fr}}
+
+.scopewrap{background:#05080b;border:1px solid var(--line);border-radius:10px;padding:8px}
+
+.meas{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+
+.legend i{display:inline-block;width:16px;height:3px;border-radius:2px;vertical-align:middle;margin-right:5px}
