@@ -101,51 +101,6 @@ All four pages follow the same architectural skeleton:
 - A **render/paint pipeline** mutated by event handlers.
 - An **i18n traversal** over `[data-ru]` / `[data-en]` attributes.
 
-```mermaid
-flowchart TB
-    classDef primary fill:#0B2533,stroke:#22D3EE,stroke-width:2px,color:#CFFAFE
-    classDef ai fill:#21153A,stroke:#A78BFA,stroke-width:2px,color:#EDE9FE
-    classDef storage fill:#0B2927,stroke:#2DD4BF,stroke-width:2px,color:#CCFBF1
-    classDef external fill:#30230B,stroke:#F59E0B,stroke-width:2px,color:#FEF3C7
-    classDef neutral fill:#161B22,stroke:#64748B,stroke-width:2px,color:#E2E8F0
-    classDef error fill:#32151B,stroke:#FB7185,stroke-width:2px,color:#FFE4E6
-
-    subgraph PAGES["Four autonomous pages"]
-        HUB["index · hub"]:::neutral
-        STA["station · controller sim"]:::primary
-        ANA["analytics · reliability model"]:::ai
-        OSC["oscilloscope · signals"]:::primary
-    end
-
-    subgraph SHARED["Shared engineering conventions"]
-        CSS["CSS design system<br/>:root variables · dark theme"]:::neutral
-        IIFE["IIFE + 'use strict'<br/>zero globals"]:::neutral
-        STATE["Mutable state object S"]:::primary
-        PAINT["paintAll() / render()<br/>render pipeline"]:::primary
-        I18N["i18n · data-ru/data-en<br/>localStorage · stationLang"]:::storage
-        RAF["requestAnimationFrame tick"]:::ai
-        CANVAS["Canvas · DPR-aware drawing"]:::ai
-        SVG["Declarative SVG with CSS classes"]:::neutral
-    end
-
-    HUB --> I18N
-    STA --> STATE
-    STA --> PAINT
-    STA --> RAF
-    STA --> CANVAS
-    STA --> SVG
-    ANA --> STATE
-    ANA --> PAINT
-    ANA --> CANVAS
-    OSC --> RAF
-    OSC --> CANVAS
-
-    style PAGES fill:#0D1117,stroke:#334155,stroke-width:1.5px,color:#E2E8F0
-    style SHARED fill:#0D1117,stroke:#334155,stroke-width:1.5px,color:#E2E8F0
-
-    linkStyle default stroke:#64748B,stroke-width:1.5px
-```
-
 ---
 
 ## 5. The state-object pattern (heart of the app)
@@ -391,34 +346,6 @@ These numbers are deliberately *plausible*, not measured — the pages say so.
   vary slightly but preserve the *ordering* of the two chips.
 - Outputs feed KPI cards, canvas bar/line charts (log scale for current, to fit
   10 000 µA vs 0.4 µA on one chart) and a 7-metric summary table with a winner column.
-
-```mermaid
-flowchart LR
-    classDef primary fill:#0B2533,stroke:#22D3EE,stroke-width:2px,color:#CFFAFE
-    classDef ai fill:#21153A,stroke:#A78BFA,stroke-width:2px,color:#EDE9FE
-    classDef storage fill:#0B2927,stroke:#2DD4BF,stroke-width:2px,color:#CCFBF1
-    classDef external fill:#30230B,stroke:#F59E0B,stroke-width:2px,color:#FEF3C7
-    classDef neutral fill:#161B22,stroke:#64748B,stroke-width:2px,color:#E2E8F0
-    classDef error fill:#32151B,stroke:#FB7185,stroke-width:2px,color:#FFE4E6
-
-    UI["duration + condition selects"]:::external
-    RUN["btnRun → simulate(hours, cond)"]:::primary
-    WALK["for each chip, for each step:<br/>ftHere · falsePos · hang counts"]:::ai
-    R["Math.random() Noise<br/>× (0.7 + 0.6·rand)"]:::neutral
-    AGG["aggregate → mtbf · energyWh · totals"]:::storage
-    CH["barLog / barLin / lines<br/>canvas charts"]:::primary
-    KP["KPI cards + summary table<br/>+ winner recommendation"]:::primary
-
-    UI --> RUN
-    RUN --> WALK
-    WALK --> R
-    R --> AGG
-    AGG --> CH
-    AGG --> KP
-
-    linkStyle default stroke:#64748B,stroke-width:1.5px
-    linkStyle 2 stroke:#22D3EE,stroke-width:2px
-```
 
 ---
 

@@ -55,6 +55,68 @@ The physical system being modelled is a realistic **street traffic controller**:
   emergency conditions;
 - a **PIR motion sensor** can extend the green phase.
 
+### 1.1 Simulation abstraction scope
+
+> **Important:** This project is an **abstract system-level simulation**, not an
+> electronic circuit simulator.
+
+The simulation models the **behavior, states, timing, control logic, signals, failures,
+and interactions of a smart traffic-control system at the system level**. It does **not**
+simulate the physical electrical behavior of individual electronic components or
+reproduce the internal operation of real electronic circuits.
+
+Therefore:
+
+- Do **not** interpret the project as a SPICE-like circuit simulation.
+- Do **not** assume that individual transistors, capacitors, resistors, CMOS gates,
+  Schmitt triggers, timers, relays, or other components are electrically simulated at
+  their physical level.
+- Physical/electronic concepts such as **voltage, current, resistance, RC time
+  constants, noise, hysteresis, NE555, CMOS logic, watchdog circuits, and relays** are
+  used as **conceptual or behavioral abstractions** that explain how a corresponding
+  real-world system could operate.
+- The program represents their **observable/system-level effects**, such as timing,
+  state transitions, signal generation, fault detection, debouncing behavior, failover,
+  and mode switching, rather than calculating their complete electrical physics.
+- The JavaScript implementation should therefore be interpreted as a **software
+  representation of the behavior of a hypothetical electronic control system**, not as
+  a direct digital reconstruction of its physical circuitry.
+
+#### Two distinct levels of interpretation
+
+The documentation clearly distinguishes between:
+
+**1. Physical / Electronic System** — a hypothetical real-world traffic controller
+composed of sensors, timers, logic circuits, relays, power supplies, signal lamps,
+watchdog mechanisms, and other electronic components.
+
+**2. Abstract Software Simulation** — a browser-based model that represents the
+important **functional behavior** of that system using software states, timers,
+variables, events, signal abstractions, finite-state-machine logic, failure scenarios,
+and analytical measurements.
+
+The relationship can therefore be expressed as:
+
+**Real Physical System → Functional Abstraction → Software Simulation**
+
+The software does not reproduce the complete physical system. Instead, it reproduces the
+**system-level behavior that is relevant to understanding, testing, teaching, and
+analyzing the control architecture**.
+
+#### Documentation rule for this guide
+
+Whenever an electronic component or physical mechanism is discussed, the guide
+explicitly distinguishes:
+
+- **what happens physically in a real electronic implementation**, and
+- **how that behavior is abstracted and represented inside the software simulation**.
+
+The browser simulation does not physically calculate phenomena that it only represents
+conceptually. The primary focus remains on:
+
+**system behavior → control logic → state transitions → timing → signals → fault
+handling → failover → monitoring → analytics.**
+
 ---
 
 ## 2. Engineering context and problem statement
